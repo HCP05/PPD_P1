@@ -19,6 +19,13 @@ public class Vanzare extends Entity<Integer>{
         this.suma = suma;
     }
 
+    public Vanzare(Integer ID_Spectacol, List<Integer> listaLocuriVandute, String dataVanzare) {
+        super(null);
+        this.ID_Spectacol = ID_Spectacol;
+        this.lista_locuri_vandute = listaLocuriVandute;
+        this.dataVanzare = dataVanzare;
+    }
+
     public Integer getID_Spectacol() {
         return ID_Spectacol;
     }

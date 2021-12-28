@@ -1,12 +1,11 @@
-import domain.Account;
-import domain.Festival;
-import domain.FestivalDTO;
-import domain.TicketDTO;
+import domain.*;
 import domain.validators.ValidationException;
 import repository.AccountRepo;
+import repository.MasterRepo;
 import service.*;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -18,11 +17,13 @@ public class ServicesImpl implements IServices {
     private LoginService loginService;
     private MainPageService mainPageService;
     private Map<String,IObserver> loggedClients;
+    private MasterRepo masterRepo;
 
-    public ServicesImpl(LoginService loginService, MainPageService mainPageService) {
+    public ServicesImpl(LoginService loginService, MainPageService mainPageService, MasterRepo masterRepo) {
         this.loginService=loginService;
         this.mainPageService=mainPageService;
-        loggedClients=new ConcurrentHashMap<>();;
+        loggedClients=new ConcurrentHashMap<>();
+        this.masterRepo = masterRepo;
     }
 
 
@@ -73,8 +74,8 @@ public class ServicesImpl implements IServices {
             throw new ServiceException("User "+user.getId()+" is not logged in.");
     }
 
-
-
-
-
+    @Override
+    public void vanzare(Vanzare vanzare) throws ServiceException {
+        masterRepo.addVanzare(vanzare);
+    }
 }

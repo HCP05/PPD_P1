@@ -1,15 +1,13 @@
 package objectProtocol;
 
-import domain.Account;
-import domain.Festival;
-import domain.FestivalDTO;
-import domain.TicketDTO;
+import domain.*;
 import service.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.Date;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -32,6 +30,7 @@ public class ServicesObjectProxy implements IServices {
         this.port = port;
         //responses=new ArrayList<Response>();
         qresponses=new LinkedBlockingQueue<Response>();
+        initializeConnection();
     }
 
     public Account login(Account user, IObserver client) throws ServiceException {
@@ -86,6 +85,19 @@ public class ServicesObjectProxy implements IServices {
             ErrorResponse err=(ErrorResponse)response;
             throw new ServiceException(err.getMessage());
         }
+    }
+
+    @Override
+    public void vanzare(Vanzare vanzare) throws ServiceException {
+        sendRequest(new VanzareRequest(vanzare));
+
+        Response response=readResponse();
+        if (response instanceof ErrorResponse){
+            ErrorResponse err=(ErrorResponse)response;
+            throw new ServiceException(err.getMessage());
+        }
+
+        System.out.println("Vanzare efectuata");
     }
 
     private void closeConnection() {

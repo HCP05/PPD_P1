@@ -26,6 +26,7 @@ public class StartObjectServer {
         ArtistRepo artistRepo=new ArtistRepo(serverProps);
         FestivalRepo festivalRepo=new FestivalRepo(serverProps);
         TicketRepo ticketRepo=new TicketRepo(serverProps);
+        MasterRepo masterRepo = new MasterRepo(serverProps);
 
         EmployeeService userService=new EmployeeService(userRepo);
         ArtistService artistService=new ArtistService(artistRepo);
@@ -34,7 +35,7 @@ public class StartObjectServer {
         MainPageService mainPageService=new MainPageService(artistService,festivalService,ticketService,userService);
 
         LoginService loginService=new LoginService(new AccountRepo(serverProps));
-        IServices services=new ServicesImpl(loginService, mainPageService);
+        IServices services=new ServicesImpl(loginService, mainPageService, masterRepo);
         int serverPort=defaultPort;
         try {
             serverPort = Integer.parseInt(serverProps.getProperty("server.port"));

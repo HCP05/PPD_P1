@@ -1,11 +1,9 @@
 package service;
 
-import domain.Account;
-import domain.Employee;
-import domain.Festival;
-import domain.FestivalDTO;
+import domain.*;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Services implements IServices {
     MainPageService mainPageService;
@@ -31,5 +29,9 @@ public class Services implements IServices {
 
     @Override
     public void logout(Account user, IObserver client) {
+    }
+
+    @Override
+    public void vanzare(Vanzare vanzare) throws ServiceException {
     }
 }

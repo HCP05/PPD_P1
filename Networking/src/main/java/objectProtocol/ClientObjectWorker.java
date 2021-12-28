@@ -1,9 +1,6 @@
 package objectProtocol;
 
-import domain.Account;
-import domain.Employee;
-import domain.FestivalDTO;
-import domain.TicketDTO;
+import domain.*;
 import service.BadCredentialsException;
 import service.IObserver;
 import service.IServices;
@@ -14,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.Date;
+import java.util.List;
 
 
 public class ClientObjectWorker implements Runnable, IObserver {
@@ -114,6 +112,20 @@ public class ClientObjectWorker implements Runnable, IObserver {
             TicketDTO ticketDTO= sellTicketRequest.getTicketDTO();
             try {
                 server.sellTicket(ticketDTO.getFestivalID(), ticketDTO.getSeats(),ticketDTO.getClient());
+                return new OkResponse();
+            } catch (ServiceException e) {
+                return new ErrorResponse(e.getMessage());
+            }
+        }
+        if(request instanceof VanzareRequest){
+            System.out.println("Vanzare request");
+
+            VanzareRequest vanzareRequest = (VanzareRequest) request;
+
+            Vanzare vanzare = vanzareRequest.getVanzare();
+
+            try {
+                server.vanzare(vanzare);
                 return new OkResponse();
             } catch (ServiceException e) {
                 return new ErrorResponse(e.getMessage());
