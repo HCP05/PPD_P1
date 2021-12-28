@@ -7,16 +7,14 @@ public class Spectacol extends Entity<Integer>{
     private String data_spectacol;
     private String titlu;
     private Double pret_bilet;
-    private List<Integer> lista_locuri_vandute=new ArrayList<Integer>();
     private Double sold;
     private Integer idSala;
 
-    public Spectacol(Integer integer, String data_spectacol, String titlu, Double pret_bilet, List<Integer> lista_locuri_vandute, Double sold, Integer idSala) {
+    public Spectacol(Integer integer, String data_spectacol, String titlu, Double pret_bilet, Double sold, Integer idSala) {
         super(integer);
         this.data_spectacol = data_spectacol;
         this.titlu = titlu;
         this.pret_bilet = pret_bilet;
-        this.lista_locuri_vandute = lista_locuri_vandute;
         this.sold = sold;
         this.idSala = idSala;
     }
@@ -43,14 +41,6 @@ public class Spectacol extends Entity<Integer>{
 
     public void setPret_bilet(Double pret_bilet) {
         this.pret_bilet = pret_bilet;
-    }
-
-    public List<Integer> getLista_locuri_vandute() {
-        return lista_locuri_vandute;
-    }
-
-    public void setLista_locuri_vandute(List<Integer> lista_locuri_vandute) {
-        this.lista_locuri_vandute = lista_locuri_vandute;
     }
 
     public Double getSold() {
