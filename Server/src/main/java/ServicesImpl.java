@@ -75,7 +75,14 @@ public class ServicesImpl implements IServices {
     }
 
     @Override
-    public void vanzare(Vanzare vanzare) throws ServiceException {
+    public synchronized void vanzare(Vanzare vanzare) throws ServiceException {
+        // SELECT *from Vanzari inner join VanzariLocuri VL on Vanzari.id_vanzare = VL.id_vanzare where id_spectacol=? and nr_loc=?;
+        List<Integer> locuriVandute=masterRepo.getLocuriVandute(vanzare.getID_Spectacol());
+        for(Integer locDorit : vanzare.getLista_locuri_vandute()){
+            if(locuriVandute.contains(locDorit)){
+                throw new ServiceException("Loc existent!");
+            }
+        }
         masterRepo.addVanzare(vanzare);
     }
 }

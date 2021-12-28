@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class MasterRepo {
@@ -43,5 +45,22 @@ public class MasterRepo {
             }
         }
 
+    }
+
+    public List<Integer> getLocuriVandute(Integer spectacolID){
+        //SELECT nr_loc from Vanzari inner join VanzariLocuri VL on Vanzari.id_vanzare = VL.id_vanzare where id_spectacol=2;
+        Connection con=dbUtils.getConnection();
+        List<Integer> rez=new ArrayList<>();
+        try (PreparedStatement statement=con.prepareStatement("SELECT nr_loc from Vanzari inner join VanzariLocuri VL on Vanzari.id_vanzare = VL.id_vanzare where id_spectacol=?;")){
+            statement.setInt(1,spectacolID);
+            try (ResultSet set=statement.executeQuery()){
+                while (set.next()){
+                    rez.add(set.getInt("nr_loc"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rez;
     }
 }
