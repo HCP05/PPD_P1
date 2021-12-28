@@ -43,7 +43,10 @@ public class StartObjectServer {
             System.err.println("Using default port "+defaultPort);
         }
         System.out.println("Starting server on port: "+serverPort);
-        AbstractServer server = new ObjectConcurrentServer(serverPort, services);
+        int threadCount = Integer.parseInt(args[0]);
+        System.out.println("Using " + threadCount + " threads");
+
+        AbstractServer server = new ObjectConcurrentServer(serverPort, threadCount, services);
         try {
                 server.start();
         } catch (ServerException e) {

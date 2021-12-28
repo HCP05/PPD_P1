@@ -8,8 +8,8 @@ import java.net.Socket;
 
 public class ObjectConcurrentServer extends AbsConcurrentServer {
     private IServices services;
-    public ObjectConcurrentServer(int port, IServices server) {
-        super(port);
+    public ObjectConcurrentServer(int port, int threads, IServices server) {
+        super(port, threads);
         this.services = server;
         System.out.println("ObjectConcurrentServer");
 

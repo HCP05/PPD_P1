@@ -9,10 +9,10 @@ import java.util.concurrent.Executors;
 public abstract class AbsConcurrentServer extends AbstractServer {
     private ExecutorService executorService;
 
-    public AbsConcurrentServer(int port) {
+    public AbsConcurrentServer(int port, int threads) {
         super(port);
          System.out.println("Concurrent AbstractServer");
-         executorService = Executors.newFixedThreadPool(10);
+         executorService = Executors.newFixedThreadPool(threads);
     }
 
     protected void processRequest(Socket client) {
