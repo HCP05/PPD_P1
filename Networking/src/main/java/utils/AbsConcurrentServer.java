@@ -1,9 +1,7 @@
 package utils;
 
 import java.net.Socket;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 
 public abstract class AbsConcurrentServer extends AbstractServer {
@@ -17,10 +15,22 @@ public abstract class AbsConcurrentServer extends AbstractServer {
 
     protected void processRequest(Socket client) {
         Thread tw=createWorker(client);
-        executorService.execute(tw);
+        //executorService.execute(tw);
+
+        Future<String> future = executorService.submit(new Callable<String>() {
+            @Override
+            public String call() {
+                tw.start();
+                return "Done";
+            }
+        });
+
+        try {
+            future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     protected abstract Thread createWorker(Socket client) ;
-
-
 }
