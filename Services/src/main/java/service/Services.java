@@ -3,7 +3,6 @@ package service;
 import domain.*;
 
 import java.sql.Date;
-import java.util.List;
 
 public class Services implements IServices {
     MainPageService mainPageService;
@@ -23,7 +22,7 @@ public class Services implements IServices {
     }
 
     @Override
-    public void sellTicket(Integer festivalID, Long seats, String client) {
+    public void notifyServerStoped() {
 
     }
 

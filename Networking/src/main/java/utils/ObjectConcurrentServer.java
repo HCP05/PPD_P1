@@ -2,6 +2,7 @@ package utils;
 
 import objectProtocol.ClientObjectWorker;
 import service.IServices;
+import service.ServiceException;
 
 import java.net.Socket;
 
@@ -23,4 +24,12 @@ public class ObjectConcurrentServer extends AbsConcurrentServer {
     }
 
 
+    @Override
+    protected void notifyClient() {
+        try {
+            services.notifyServerStoped();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+    }
 }

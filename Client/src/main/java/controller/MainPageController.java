@@ -188,14 +188,14 @@ public class MainPageController implements IObserver {
     }
 
     @Override
-    public void ticketsSold(TicketDTO ticket) throws ServiceException {
+    public void serverStoped() throws ServiceException {
         //TODO implement
         for(int index=0;index<festivalModel.size();index++){
             FestivalDTO festivalDTO=festivalModel.get(index);
-            if(festivalDTO.getFestivalID().intValue()==ticket.getFestivalID()){
-                festivalDTO.setSoldSeats(ticket.getSeats().intValue());
-                festivalModel.set(index,festivalDTO);
-            }
+//            if(festivalDTO.getFestivalID().intValue()==ticket.getFestivalID()){
+//                festivalDTO.setSoldSeats(ticket.getSeats().intValue());
+//                festivalModel.set(index,festivalDTO);
+//            }
         }
     }
 

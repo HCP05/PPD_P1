@@ -1,6 +1,4 @@
 import domain.*;
-import domain.validators.ValidationException;
-import repository.AccountRepo;
 import repository.MasterRepo;
 import service.*;
 
@@ -8,8 +6,6 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 public class ServicesImpl implements IServices {
@@ -30,16 +26,17 @@ public class ServicesImpl implements IServices {
     private final int defaultThreadsNo=5;
 
     public synchronized Account login(Account user, IObserver client) throws ServiceException, BadCredentialsException {
-        System.out.println("entered login servicesImpl");
-        Account userR=loginService.getAccount(user.getUsername(),user.getPassword());
-        if (userR!=null){
-            if(loggedClients.get(user.getId())!=null)
-                throw new ServiceException("User already logged in.");
+//        System.out.println("entered login servicesImpl");
+//        Account userR=loginService.getAccount(user.getUsername(),user.getPassword());
+//        if (userR!=null){
+//            if(loggedClients.get(user.getId())!=null)
+//                throw new ServiceException("User already logged in.");
 
-            loggedClients.put(user.getId(), client);
-            return userR;
-        }else
-            throw new ServiceException("Authentication failed.");
+            loggedClients.put(String.valueOf(loggedClients.size()), client);
+//            return userR;
+//        }else
+//            throw new ServiceException("Authentication failed.");
+        return null;
     }
 
     @Override
@@ -51,18 +48,18 @@ public class ServicesImpl implements IServices {
     }
 
     @Override
-    public synchronized void sellTicket(Integer festivalID, Long seats, String client) throws ServiceException {
+    public synchronized void notifyServerStoped() throws ServiceException {
+        System.out.println("IS IN NOTIFYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
         try {
-            mainPageService.sellTicket(festivalID.longValue(),seats,client);
             loggedClients.forEach((x,y)->{
                 try {
-                    y.ticketsSold(new TicketDTO(festivalID,seats,client));
+                    y.serverStoped();
                 } catch (ServiceException e) {
                     e.printStackTrace();
                 }
             });
-        } catch (ValidationException e) {
-            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -85,4 +82,6 @@ public class ServicesImpl implements IServices {
         }
         masterRepo.addVanzare(vanzare);
     }
+
+
 }

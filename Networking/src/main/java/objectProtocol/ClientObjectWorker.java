@@ -11,7 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.Date;
-import java.util.List;
 
 
 public class ClientObjectWorker implements Runnable, IObserver {
@@ -111,7 +110,7 @@ public class ClientObjectWorker implements Runnable, IObserver {
             SellTicketRequest sellTicketRequest=(SellTicketRequest) request;
             TicketDTO ticketDTO= sellTicketRequest.getTicketDTO();
             try {
-                server.sellTicket(ticketDTO.getFestivalID(), ticketDTO.getSeats(),ticketDTO.getClient());
+                server.notifyServerStoped();
                 return new OkResponse();
             } catch (ServiceException e) {
                 return new ErrorResponse(e.getMessage());
@@ -142,10 +141,11 @@ public class ClientObjectWorker implements Runnable, IObserver {
     }
 
     @Override
-    public void ticketsSold(TicketDTO ticket) throws ServiceException {
-        System.out.println("Ticket sold "+ticket);
+    public void serverStoped() throws ServiceException {
+        System.out.println("Ticket sold ");
         try {
-            sendResponse(new TicketSoldResponse(ticket));
+            sendResponse(new TicketSoldResponse(new TicketDTO(null,null,null)));
+            connected=false;
         } catch (IOException e) {
             throw new ServiceException("Sending error: "+e);
         }

@@ -2,12 +2,13 @@ package objectProtocol;
 
 import domain.*;
 import service.*;
+
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.Date;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -34,7 +35,7 @@ public class ServicesObjectProxy implements IServices {
     }
 
     public Account login(Account user, IObserver client) throws ServiceException {
-        initializeConnection();
+//        initializeConnection();
         sendRequest(new LoginRequest(user));
         Response response=readResponse();
         if (response instanceof LoginResponse){
@@ -67,8 +68,8 @@ public class ServicesObjectProxy implements IServices {
     }
 
     @Override
-    public void sellTicket(Integer festivalID, Long seats, String client) throws ServiceException {
-        sendRequest(new SellTicketRequest(new TicketDTO(festivalID,seats,client)));
+    public void notifyServerStoped() throws ServiceException {
+//        sendRequest(new SellTicketRequest(new TicketDTO(festivalID,seats,client)));
         Response response=readResponse();
         if (response instanceof ErrorResponse){
             ErrorResponse err=(ErrorResponse)response;
@@ -159,7 +160,7 @@ public class ServicesObjectProxy implements IServices {
             TicketDTO ticketDTO=ticketSoldResponse.getTicketDTO();
             System.out.println("Some tickets were sold");
             try{
-                client.ticketsSold(ticketDTO);
+                client.serverStoped();
             }catch (ServiceException e){
                 e.printStackTrace();
             }
@@ -183,6 +184,8 @@ public class ServicesObjectProxy implements IServices {
                         }
                     }
                 } catch (IOException e) {
+                    if(e instanceof EOFException)
+                        finished=true;
                     System.out.println("Reading error "+e);
                 } catch (ClassNotFoundException e) {
                     System.out.println("Reading error "+e);

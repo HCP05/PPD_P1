@@ -1,5 +1,6 @@
 import controller.Controller;
 import controller.MainPageController;
+import domain.TicketDTO;
 import domain.Vanzare;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,17 +8,31 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import objectProtocol.ServicesObjectProxy;
+import service.BadCredentialsException;
+import service.IObserver;
 import service.IServices;
 import service.ServiceException;
 
 import java.io.IOException;
 import java.util.*;
 
-public class StartAutomaticClient {
-    private static int defaultPort =55555;
-    private static String defaultServer="localhost";
+public class StartAutomaticClient{
 
     public static void main(String[] args) {
+        Client c=new Client();
+        c.run();
+    }
+}
+
+class Client implements IObserver{
+    private boolean running=true;
+    private  int defaultPort =55555;
+    private  String defaultServer="localhost";
+
+    public Client() {
+    }
+
+    public void run(){
         Properties clientProps=new Properties();
 
         try {
@@ -44,10 +59,21 @@ public class StartAutomaticClient {
         System.out.println("Using server port "+serverPort);
         IServices server=new ServicesObjectProxy(serverIP, serverPort);
 
-        Boolean running = true;
+
         int idSpectacol, nrSpectacole = 3, nrLocuriTotal = 100, nrLocuri, loc;
         List<Integer> locuri;
         Random generator = new Random();
+
+
+        try {
+            server.login(null,this);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        } catch (BadCredentialsException e) {
+            e.printStackTrace();
+        }
+
+
 
         while(running) {
             locuri = new ArrayList<>();
@@ -76,5 +102,11 @@ public class StartAutomaticClient {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void serverStoped() throws ServiceException {
+        System.out.println("Server stoped");
+        running=false;
     }
 }

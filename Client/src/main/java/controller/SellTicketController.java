@@ -1,10 +1,7 @@
 package controller;
 
 import domain.Account;
-import domain.Festival;
 import domain.FestivalDTO;
-import domain.Ticket;
-import domain.validators.ValidationException;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -12,7 +9,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import service.IServices;
-import service.MainPageService;
 import service.ServiceException;
 import utils.AlertDisplayer;
 
@@ -58,7 +54,7 @@ public class SellTicketController {
             return;
         }
         try {
-            server.sellTicket(festival.getFestivalID().intValue(),seats,client);
+            server.notifyServerStoped();
             AlertDisplayer.showMessage(null, Alert.AlertType.CONFIRMATION,"Success!","Biletele au fost vandute cu succes!");
         } catch (ServiceException e) {
             AlertDisplayer.showErrorMessage(null,e.getMessage());
