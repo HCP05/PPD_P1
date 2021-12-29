@@ -52,7 +52,7 @@ public class StartAutomaticClient {
         while(running) {
             locuri = new ArrayList<>();
             idSpectacol = generator.nextInt(nrSpectacole) + 1;
-            nrLocuri = generator.nextInt(nrLocuriTotal) + 1;
+            nrLocuri = generator.nextInt(5) + 1;
 
             for(int i = 0; i < nrLocuri; i++) {
                 loc = generator.nextInt(nrLocuriTotal) + 1;
