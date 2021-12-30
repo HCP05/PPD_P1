@@ -63,4 +63,33 @@ public class MasterRepo {
         }
         return rez;
     }
+
+    public int getPretBilet(int spectacolID) {
+        Connection con=dbUtils.getConnection();
+        try (PreparedStatement statement=con.prepareStatement("select pret_bilet from Spectacole where id_spectacol = ?;")){
+            statement.setInt(1, spectacolID);
+            try (ResultSet set=statement.executeQuery()){
+                while (set.next()){
+                    return set.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getNrSpectacole() {
+        Connection con=dbUtils.getConnection();
+        try (PreparedStatement statement=con.prepareStatement("select count(*) from Spectacole;")){
+            try (ResultSet set=statement.executeQuery()){
+                while (set.next()){
+                    return set.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

@@ -101,6 +101,10 @@ public class ServicesObjectProxy implements IServices {
         System.out.println("Vanzare efectuata");
     }
 
+    @Override
+    public void verificare() {
+    }
+
     private void closeConnection() {
         finished=true;
         try {

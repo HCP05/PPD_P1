@@ -1,12 +1,4 @@
-import controller.Controller;
-import controller.MainPageController;
-import domain.TicketDTO;
 import domain.Vanzare;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import objectProtocol.ServicesObjectProxy;
 import service.BadCredentialsException;
 import service.IObserver;
@@ -59,21 +51,15 @@ class Client implements IObserver{
         System.out.println("Using server port "+serverPort);
         IServices server=new ServicesObjectProxy(serverIP, serverPort);
 
-
         int idSpectacol, nrSpectacole = 3, nrLocuriTotal = 100, nrLocuri, loc;
         List<Integer> locuri;
         Random generator = new Random();
 
-
         try {
             server.login(null,this);
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        } catch (BadCredentialsException e) {
+        } catch (ServiceException | BadCredentialsException e) {
             e.printStackTrace();
         }
-
-
 
         while(running) {
             locuri = new ArrayList<>();

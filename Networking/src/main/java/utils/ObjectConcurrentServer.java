@@ -6,14 +6,13 @@ import service.ServiceException;
 
 import java.net.Socket;
 
-
 public class ObjectConcurrentServer extends AbsConcurrentServer {
     private IServices services;
+
     public ObjectConcurrentServer(int port, int threads, IServices server) {
         super(port, threads);
         this.services = server;
         System.out.println("ObjectConcurrentServer");
-
     }
 
     @Override
@@ -23,7 +22,6 @@ public class ObjectConcurrentServer extends AbsConcurrentServer {
         return tw;
     }
 
-
     @Override
     protected void notifyClient() {
         try {
@@ -31,5 +29,10 @@ public class ObjectConcurrentServer extends AbsConcurrentServer {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void verificare() {
+        services.verificare();
     }
 }

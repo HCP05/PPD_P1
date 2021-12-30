@@ -12,4 +12,5 @@ public interface IServices {
     void notifyServerStoped() throws ServiceException;
     void logout(Account user, IObserver client) throws ServiceException;
     void vanzare(Vanzare vanzare) throws ServiceException;
+    void verificare();
 }

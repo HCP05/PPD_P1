@@ -33,4 +33,8 @@ public class Services implements IServices {
     @Override
     public void vanzare(Vanzare vanzare) throws ServiceException {
     }
+
+    @Override
+    public void verificare() {
+    }
 }
